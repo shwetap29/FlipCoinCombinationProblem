@@ -1,14 +1,17 @@
-#!/bin/bash -x
+#!/bin/bash -xs
 #Printing Message
 printf "Welcome to flip coin combination \n"
-
+#INITILIZE DICTIONARY
+declare -A FlipingCoin
+#DECLARING FUNCTION
+function triplet
+{
 #CONSTANT VARIBALE
 COUNT_HEAD=0
 COUNT_TAIL=0
 read -p "Enter how many time to flip coin: " userInput
 TEMP=$userInput
-#INITILIZE DICTIONARY
-declare -A FlipingCoin
+
 #constant variable
 COUNT_HHH=0
 COUNT_HHT=0
@@ -28,41 +31,41 @@ for(( i=1; i<=$userInput; i++ ))
 		case $result in
 			1)
 				COUNT_HHH=$(($COUNT_HHH+1))
-				FlipingCoin["HHH"]="$COUNT_HHH"
+				FlippingCoin["HHH"]="$COUNT_HHH"
 				;;
 			2)
 				COUNT_HHT=$(($COUNT_HHT+1))
-				FlipingCoin["HHT"]="$COUNT_HHT"
+				FlippingCoin["HHT"]="$COUNT_HHT"
 				;;
                         3)
                                 COUNT_HTH=$(($COUNT_HTH+1))
-                                FlipingCoin["HTH"]="$COUNT_HTH"
+                                FlippingCoin["HTH"]="$COUNT_HTH"
                                 ;;
                         4)
                                 COUNT_THH=$(($COUNT_THH+1))
-                                FlipingCoin["THH"]="$COUNT_THH"
+                                FlippingCoin["THH"]="$COUNT_THH"
                                 ;;
 
                         5)
                                 COUNT_TTT=$(($COUNT_TTT+1))
-                                FlipingCoin["TTT"]="$COUNT_TTT"
+                                FlippingCoin["TTT"]="$COUNT_TTT"
                                 ;;
                         6)
                                 COUNT_TTH=$(($COUNT_TTH+1))
-                                FlipingCoin["TTH"]="$COUNT_TTH"
+                                FlippingCoin["TTH"]="$COUNT_TTH"
                                 ;;
                         7)
                                 COUNT_THT=$(($COUNT_THT+1))
-                                FlipingCoin["THT"]="$COUNT_THT"
+                                FlippingCoin["THT"]="$COUNT_THT"
                                 ;;
                         8)
                                 COUNT_HTT=$(($COUNT_HTT+1))
-                                FlipingCoin["HTT"]="$COUNT_HTT"
+                                FlippingCoin["HTT"]="$COUNT_HTT"
                                 ;;
 
 		esac
 	done
-#CALCULATING PERCENTAGE OF FLIPING COIN
+#CALCULATING PERCENTAGE OF FLIPPING COIN
 HHHPercentage=`echo "scale=3; $COUNT_HHH / $TEMP * 100"  #|bc -l`
 HHTPercentage=`echo "scale=3; $COUNT_HHT / $TEMP * 100"  #|bc -l`
 HTHPercentage=`echo "scale=3; $COUNT_HTH / $TEMP * 100"  #|bc -l`
@@ -72,12 +75,13 @@ TTHPercentage=`echo "scale=3; $COUNT_TTH / $TEMP * 100"  #|bc -l`
 THTPercentage=`echo "scale=3; $COUNT_THT / $TEMP * 100"  #|bc -l`
 HTTPercentage=`echo "scale=3; $COUNT_HTT / $TEMP * 100"  #|bc -l`
 
-#PRINTING KEY AND VALUE OF COIN
-for count in ${!FlipingCoin[@]}
+#PRINTING WINNING COMBINATION IN SORTED ORDER
+for sort in ${!FlippingCoin[@]}
 	do
-		echo "$count : ${FlipingCoin[$count]}"
-	done
-#PRINTING PERCENTAGE OF FLIPING COIN
+		echo "$sort : ${FlippingCoin[$count]}"
+	done |
+sort -rn -k3
+#PRINTING RESULT OF FLIPING COIN
 echo "Head head head percentage : $hhhPercentage"
 echo "Head head tail percentage : $hhtPercentage"
 echo "Head tail head percentage : $hthPercentage"
@@ -86,4 +90,127 @@ echo "Tail tail tail percentage : $tttPercentage"
 echo "Tail tail head percentage : $tthPercentage"
 echo "Tail head tail percentage : $thtPercentage"
 echo "Head Tail tail percentage : $httPercentage"
+}
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#DECLARING FUNCTION
+function doublet
+{
+#GENERATING RANDOM VALUE
+result=$((RANDOM%2+1))
+#CONSTANT VARIBALE
+COUNT_HEAD=0
+COUNT_TAIL=0
+read -p "Enter how many time to flip coin: " userInput
+TEMP=$userInput
+#INITILIZE DICTIONARY
+declare -A FlippingCoin
+#CONSTANT VARIBALE
+COUNT_HH=0		#HH=Head Head
+COUNT_HT=0		#HT=Head Tail
+COUNT_TT=0		#TT=Tail Tail
+COUNT_TH=0		#TH=Tail Tail
+#USING LOOP TO FLIP COIN MULTIPLE TIMES
+for(( i=1; i<=$userInput; i++ ))
+	do
+	#GENERATING RANDOM VALUE
+	result=$((RANDOM%4+1))
+	#USINGCASESTATEMENT
+		case $result in
+			1)
+				COUNT_HH=$(($COUNT_HH+1))
+				FlippingCoin["HH"]="$COUNT_HH"
+				;;
+			2)
+				COUNT_HT=$(($COUNT_HT+1))
+				FlippingCoin["HT"]="$COUNT_HT"
+				;;
+			3)
+				COUNT_TT=$(($COUNT_TT+1))
+				FlippingCoin["TT"]="$COUNT_TT"
+				;;
+			4)
+				COUNT_TH=$(($COUNT_TH+1))
+				FlippingCoin["TH"]="$COUNT_TH"
+				;;
+			esac
+	done
+#CALCULATING PERSENTAGE OF FLIPING COIN
+headHeadPercentage=`echo "scale=3; $COUNT_HH / $TEMP * 100" #|bc -l`
+headTailPercentage=`echo "scale=3; $COUNT_HT / $TEMP * 100" #|bc -l`
+tailTailPercentage=`echo "scale=3; $COUNT_TT / $TEMP * 100" #|bc -l`
+tailHeadPercentage=`echo "scale=3; $COUNT_TH / $TEMP * 100" #|bc -l`
+#PRINTING WINNING COMBINATION IN SORTED ORDER
+for sort in ${!FlippingCoin[@]}
+do
+	echo "$sort : ${FlippingCoin[$sort]}"
+done |
+sort -rn -k3
 
+#PRINT RESULT OF FILPING COIN
+echo "Head head percentage : $headHeadPercentage"
+echo "Head tail percentage : $headTailPercentage"
+echo "Tail tail percentage : $tailTailPercentage"
+echo "Tail head percentage : $tailHeadPercentage"
+}
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#DECLEARING FUNCTION
+function singlet
+{
+#GENERATING RANDOM VALUE
+result=$((RANDOM%2+1))
+#CONSTANT VARIBALE
+COUNT_HEAD=0
+COUNT_TAIL=0
+read -p "Enter how many time to flip coin: " userInput
+TEMP=$userInput
+#USING LOOP TO FLIP COIN MULTIPLE TIME
+for(( i=1; i<=$userInput; i++ ))
+	do
+		#GENERATING RANDOM VALUE
+		result=$((RANDOM%2+1))
+		case $result in
+			1)
+				COUNT_HEAD=$(($COUNT_HEAD+1))
+				FlippingCoin["H"]="$COUNT_HEAD"
+				;;
+			2)
+				COUNT_TAIL=$(($COUNT_TAIL+1))
+				FlippingCoin["T"]="$COUNT_TAIL"
+				;;
+		esac
+	done
+headPercentage=`echo "scale=3; $COUNT_HEAD / $TEMP * 100 " #|bc -l`
+tailPercentage=`echo "scale=3; $COUNT_TAIL / $TEMP * 100 " #|bc -l`
+#PRINTING WINNING COMBINATION IN SORTED ORDER
+for sort in ${!FlippingCoin[@]}
+do
+	echo "$sort : ${FlippingCoin[$sort]}"
+done |
+sort -rn -k3
+#PRINTING PERCENTAGE OF FLIPPING COIN
+echo "Head percentage : $headPercentage "
+echo "Tail percentage : $tailPercentage "
+}
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+echo "Welcome to flip coin simulation"
+echo "Enter 1 for singlet"
+echo "Enter 2 for dublet"
+echo "Enter 3 for triplet"
+read number
+case $number in
+	1)
+		singlet
+		;;
+
+	2)
+		doublet
+		;;
+
+	3)
+		triplet
+		;;
+
+	*)
+		echo "Invalid input"
+ esac
